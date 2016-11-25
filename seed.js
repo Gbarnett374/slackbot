@@ -45,6 +45,6 @@ function process(data, key, callback) {
 }
 
 process(data, 'user_responses');
-process(responses, 'responses', function(){
+process(responses, 'responses', () => {
 	throw 'Finished.';
 });
