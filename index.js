@@ -1,5 +1,7 @@
 const Botkit = require('Botkit');
 const _ = require('underscore');
+const redis = requie('redis');
+const client = redis.createClient();
 
 const controller = Botkit.slackbot({
     debug: true
@@ -20,7 +22,7 @@ controller.hears('.*',['ambient'], (bot, message) => {
         	'Big Data!',
         	'I want to learn some Python like Tara at the Orchard.'
         ];
-        const names = ['dbush', 'seanscottking', 'estreske'];
+        const names = ['bush', 'seanscottking', 'estreske'];
         if (names.includes(name)) {
             bot.reply(message, _.sample(responses));
         }

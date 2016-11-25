@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "botkit": "^0.4.0",
+    "redis": "^2.6.3",
     "underscore": "^1.8.3"
   },
   "devDependencies": {},
