@@ -1,9 +1,5 @@
 const redis  = require('redis');
 const client = redis.createClient();
-
-
-
-
 const responses = [
 	'Yep yep thats right!', 
 	'Cool!', 
@@ -11,7 +7,6 @@ const responses = [
 	'Big Data!',
 	'I want to learn some Python like Tara at the Orchard.'
 ];
-
 const data = [
 	{
 		'user': 'bush',
@@ -28,7 +23,6 @@ const data = [
 	}
 ];
 
-
 client.save = (response, key, index, callback) => {
 	client.lpush(key, JSON.stringify(response), (error) => {
 		if (error) return callback(error);
@@ -37,23 +31,20 @@ client.save = (response, key, index, callback) => {
 	});
 }
 
-data.forEach((response, index) => {
-	client.save(response, 'user_responses', index, (err, index) => {
-		console.log(index);
-		if (err) console.log(err);
-		if (index === data.length - 1){ 
-			console.log('Finished inserting records.');
-		}
+function process(data, key, callback) {
+	data.forEach((response, index) => {
+		client.save(response, key, index, (err, index) => {
+			console.log(index);
+			if (err) console.log(err);
+			if (index === data.length - 1){ 
+				console.log('Finished inserting records.');
+				if (callback) return callback();
+			}
+		});
 	});
-});
+}
 
-responses.forEach((response, index) => {
-	client.save(response, 'responses', index, (err, index) => {
-		console.log(index);
-		if (err) console.log(err);
-		if (index === responses.length - 1){ 
-			console.log('Finished inserting records.');
-			throw '';
-		}
-	});
+process(data, 'user_responses');
+process(responses, 'responses', function(){
+	throw 'Finished.';
 });
