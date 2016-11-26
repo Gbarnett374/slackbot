@@ -1,6 +1,6 @@
 const Botkit = require('Botkit');
 const _ = require('underscore');
-const redis = requie('redis');
+const redis = require('redis');
 const client = redis.createClient();
 
 const controller = Botkit.slackbot({
@@ -11,6 +11,7 @@ controller.spawn({
     token: process.env.token
 }).startRTM();
 
+//User Specific.
 controller.hears('.*',['ambient'], (bot, message) => {
     bot.api.users.info({user: message.user}, (error, response) => {
         const {name, real_name} = response.user;
@@ -30,4 +31,13 @@ controller.hears('.*',['ambient'], (bot, message) => {
         	bot.reply(message, 'Shut up Baz!');
         }
      });
+});
+
+
+controller.hears('.*',['direct_message','direct_mention','mention'], (bot, message) => {
+    client.lrange('responses', 0, -1, (err, data) => {
+        if (err) bot.reply(message, 'Uh looks like the v7000 is having issues again :('); 
+        data = data.map(JSON.parse);
+        bot.reply(message, _.sample(data));
+    });
 });

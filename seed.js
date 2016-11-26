@@ -34,10 +34,9 @@ client.save = (response, key, index, callback) => {
 function process(data, key, callback) {
 	data.forEach((response, index) => {
 		client.save(response, key, index, (err, index) => {
-			console.log(index);
 			if (err) console.log(err);
 			if (index === data.length - 1){ 
-				console.log('Finished inserting records.');
+				console.log(`Finished inserting records for ${key}.`);
 				if (callback) return callback();
 			}
 		});
