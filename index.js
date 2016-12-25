@@ -44,17 +44,4 @@ controller.hears('.*',['direct_message','direct_mention','mention'], (bot, messa
             bot.reply(message, _.sample(data));
         }
     });
-    // client.lrange('responses', 0, -1, (err, data) => {
-    //     if (err) bot.reply(message, 'Uh looks like the v7000 is having issues again :('); 
-    //     data = data.map(JSON.parse);
-    //     bot.reply(message, _.sample(data));
-    // });
 });
-
-// controller.hears('.*',['direct_message','direct_mention','mention'], (bot, message) => {
-//     client.lrange('responses', 0, -1, (err, data) => {
-//         if (err) bot.reply(message, 'Uh looks like the v7000 is having issues again :('); 
-//         data = data.map(JSON.parse);
-//         bot.reply(message, _.sample(data));
-//     });
-// });
