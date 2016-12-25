@@ -11,13 +11,13 @@ exports.saveList = (response, key, index, callback) => {
 }
 
 exports.saveUserHash = (val) => {
-    client.hmset(`users:${val.user}`, "responses", JSON.stringify(val.responses), (err, resp) => {
-            console.log(val.user, resp);
+    client.hmset(`users:${val.user}`, 'responses', JSON.stringify(val.responses), (err, resp) => {
+        console.log(val.user, resp);
     });
 }
 
 exports.getUser = (user, callback) => {
-    client.hget(`users:${user}`, "responses", (err, data) => {
+    client.hget(`users:${user}`, 'responses', (err, data) => {
         if (err) return callback(err);
         return callback(null, data);
     });
