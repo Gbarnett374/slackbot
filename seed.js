@@ -25,7 +25,6 @@ const data = [
 let processList = (data, key, callback) => {
     data.forEach((response, index) => {
         redisHelper.saveList(response, key, index, (err, index) => {
-            if (err) console.log(err);
             if (index === data.length - 1){ 
                 console.log(`Finished inserting records for ${key}.`);
                 if (callback) return callback();
@@ -36,7 +35,6 @@ let processList = (data, key, callback) => {
 
 let processHash = (data) => {
     data.forEach((val, index) => {
-        console.log(val);
         redisHelper.saveUserHash(val);
     });
 }

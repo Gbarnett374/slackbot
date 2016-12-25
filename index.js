@@ -1,7 +1,5 @@
 const Botkit = require('Botkit');
 const _ = require('underscore');
-// const redis = require('redis');
-// const client = redis.createClient();
 const redisHelper = require('./redis_helper');
 
 const controller = Botkit.slackbot({
@@ -12,7 +10,7 @@ controller.spawn({
     token: process.env.token
 }).startRTM();
 
-//User Specific.
+//User Specific. Get this working next. 
 controller.hears('.*',['ambient'], (bot, message) => {
     bot.api.users.info({user: message.user}, (error, response) => {
         const {name, real_name} = response.user;
