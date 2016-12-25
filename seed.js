@@ -24,14 +24,15 @@ const data = [
 ];
 
 client.save = (response, key, index, callback) => {
-	client.lpush(key, JSON.stringify(response), (error) => {
+	client.lpush(key, JSON.stringify(response), (error, resp) => {
 		if (error) return callback(error);
 		console.log(`Inserted record in ${key}.`);
+		console.log(resp);
 		return callback(null, index);
 	});
 }
 
-function process(data, key, callback) {
+let processList = (data, key, callback) => {
 	data.forEach((response, index) => {
 		client.save(response, key, index, (err, index) => {
 			if (err) console.log(err);
@@ -43,7 +44,14 @@ function process(data, key, callback) {
 	});
 }
 
-process(data, 'user_responses');
-process(responses, 'responses', () => {
+let processHash = (data) => {
+	data.forEach((val, index) => {
+		client.hmset(`users:${val.user}`, "responses", JSON.stringify(val.responses), (err, resp) => {
+			console.log(val.user, resp);
+		});
+	});
+}
+processHash(data);
+processList(responses, 'responses', () => {
 	throw 'Finished.';
 });
