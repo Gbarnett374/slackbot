@@ -16,6 +16,17 @@ exports.saveUserHash = (val) => {
     });
 }
 
-exports.getUser = (user) => {
-    client.hget(users:${user}`, "responses");
+exports.getUser = (user, callback) => {
+    client.hget(users:${user}`, "responses", (err, data) => {
+        if err return callback(err);
+        return callback(null, data);
+    });
+}
+
+exports.getList = (list, callback) => {
+    client.lrange(list, 0, -1, (err, data) => {
+        if (err) return callback(err, null);
+        data = data.map(JSON.parse);
+        return callback(null, data);
+    });
 }

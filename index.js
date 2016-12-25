@@ -1,7 +1,8 @@
 const Botkit = require('Botkit');
 const _ = require('underscore');
-const redis = require('redis');
-const client = redis.createClient();
+// const redis = require('redis');
+// const client = redis.createClient();
+const redisHelper = require('./redis_helper');
 
 const controller = Botkit.slackbot({
     debug: true
@@ -33,11 +34,27 @@ controller.hears('.*',['ambient'], (bot, message) => {
      });
 });
 
-
 controller.hears('.*',['direct_message','direct_mention','mention'], (bot, message) => {
-    client.lrange('responses', 0, -1, (err, data) => {
-        if (err) bot.reply(message, 'Uh looks like the v7000 is having issues again :('); 
-        data = data.map(JSON.parse);
-        bot.reply(message, _.sample(data));
+    redisHelper.getList('responses', (err, data) => {
+        if (err) {
+            bot.reply(message, 'Uh looks like the v7000 is having issues again :(');
+        }
+        else {
+            data = data.map(JSON.parse);
+            bot.reply(message, _.sample(data));
+        }
     });
+    // client.lrange('responses', 0, -1, (err, data) => {
+    //     if (err) bot.reply(message, 'Uh looks like the v7000 is having issues again :('); 
+    //     data = data.map(JSON.parse);
+    //     bot.reply(message, _.sample(data));
+    // });
 });
+
+// controller.hears('.*',['direct_message','direct_mention','mention'], (bot, message) => {
+//     client.lrange('responses', 0, -1, (err, data) => {
+//         if (err) bot.reply(message, 'Uh looks like the v7000 is having issues again :('); 
+//         data = data.map(JSON.parse);
+//         bot.reply(message, _.sample(data));
+//     });
+// });
