@@ -12,34 +12,29 @@ controller.spawn({
 
 //User Specific. Get this working next. 
 controller.hears('.*',['ambient'], (bot, message) => {
-    bot.api.users.info({user: message.user}, (error, response) => {
-        const {name, real_name} = response.user;
-        // Will add these to redis. 
-        const responses = [
-            'Yep yep thats right!', 
-            'Cool!', 
-            'Us RPG guys wish we can be full stack.',
-            'Big Data!',
-            'I want to learn some Python like Tara at the Orchard.'
-        ];
-        const names = ['bush', 'seanscottking', 'estreske'];
-        if (names.includes(name)) {
-            bot.reply(message, _.sample(responses));
-        }
-        else if (name === 'baz') {
-            bot.reply(message, 'Shut up Baz!');
-        }
-     });
+  bot.api.users.info({user: message.user}, (error, response) => {
+    const {name, real_name} = response.user;
+    // Will add these to redis. 
+    const userResponses = redisHelper.getUser(name, (error, data) => {
+      if (error) { 
+          bot.reply(message, 'Uh looks like the v7000 is having issues again :('); 
+      }
+      else if (data) {
+          data = JSON.parse(data);
+          bot.reply(message, _.sample(data));
+      }
+    });
+  });
 });
 
 controller.hears('.*',['direct_message','direct_mention','mention'], (bot, message) => {
-    redisHelper.getList('responses', (err, data) => {
-        if (err) {
-            bot.reply(message, 'Uh looks like the v7000 is having issues again :(');
-        }
-        else {
-            data = data.map(JSON.parse);
-            bot.reply(message, _.sample(data));
-        }
-    });
+  redisHelper.getList('responses', (err, data) => {
+    if (err) {
+        bot.reply(message, 'Uh looks like the v7000 is having issues again :(');
+    }
+    else {
+        data = data.map(JSON.parse);
+        bot.reply(message, _.sample(data));
+    }
+  });
 });
