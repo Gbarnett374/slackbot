@@ -1,9 +1,9 @@
-const Botkit = require('botkit');
-const _ = require('underscore');
+const Botkit      = require('botkit');
+const _           = require('underscore');
 const redisHelper = require('./redis_helper');
 
-const controller = Botkit.slackbot({
-    debug: true
+const controller  = Botkit.slackbot({
+    debug: false
 });
 
 controller.spawn({
