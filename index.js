@@ -14,8 +14,8 @@ controller.spawn({
 controller.hears('.*',['ambient'], (bot, message) => {
   bot.api.users.info({user: message.user}, (error, response) => {
     const {name, real_name} = response.user;
-    const userResponses = redisHelper.getUser(name, (error, data) => {
-      if (error) { 
+    const userResponses = redisHelper.getUser(name, (err, data) => {
+      if (err) { 
           bot.reply(message, 'Uh looks like the v7000 is having issues again :('); 
       }
       else if (data && new Date().getMinutes() % 2 == 0) {
