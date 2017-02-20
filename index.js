@@ -1,4 +1,4 @@
-const Botkit = require('Botkit');
+const Botkit = require('botkit');
 const _ = require('underscore');
 const redisHelper = require('./redis_helper');
 
