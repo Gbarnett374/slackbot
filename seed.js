@@ -30,7 +30,7 @@ const data = [
 let processList = (data, key, callback) => {
   data.forEach((response, index) => {
     redisHelper.saveList(response, key, index, (err, index) => {
-      if (index === data.length - 1){ 
+      if (index === data.length - 1) { 
         console.log(`Finished inserting records for ${key}.`);
         if (callback) return callback();
       }
