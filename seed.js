@@ -11,7 +11,6 @@ const data = [
   {
     'user': 'bush',
     'responses': responses
-
   },
   {
     'user': 'seanscottking',
@@ -23,7 +22,7 @@ const data = [
   },
   {
     'user': 'baz',
-    'responses': ['Shut Up Baz!']
+    'responses': ['Shut Up Baz!','Listen to Pink Floyd you uncultured jerk!', 'Mobile < Web']
   }
 ];
 
